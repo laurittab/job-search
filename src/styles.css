@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f7f7f8;
+    color: #111
+}
+
+button {
+    cursor: pointer
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 0.35rem;
+    margin-top: 0.25rem
+}
