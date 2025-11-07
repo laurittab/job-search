@@ -327,6 +327,7 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null
     try {
       const report = await api.fetchReport()
+      console.log("App-loadReport-report", report)
       searches.value = report.searches || []
       strategies.value = report.strategies || []
     } catch (err) {
