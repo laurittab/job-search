@@ -7,6 +7,7 @@ export const useJobsStore = defineStore('jobs', () => {
   const error = ref(null)
   const searches = ref([])
   const strategies = ref([])
+  const news = ref([])
 
   // 🆕 Persisted filters
   const filters = ref({
@@ -18,20 +19,20 @@ export const useJobsStore = defineStore('jobs', () => {
 
   // Load filters from localStorage when store initializes
   const saved = localStorage.getItem('jobsFilters')
-if (saved) {
-  try {
-    const parsed = JSON.parse(saved)
-    // Ensure all expected keys exist to avoid "undefined"
-    filters.value = {
-      strategyCategory: parsed.strategyCategory || '',
-      searchCategory: parsed.searchCategory || '',
-      colour: parsed.colour || '',
-      searchTerm: parsed.searchTerm || ''
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved)
+      // Ensure all expected keys exist to avoid "undefined"
+      filters.value = {
+        strategyCategory: parsed.strategyCategory || '',
+        searchCategory: parsed.searchCategory || '',
+        colour: parsed.colour || '',
+        searchTerm: parsed.searchTerm || ''
+      }
+    } catch (e) {
+      console.warn('Failed to parse saved filters:', e)
     }
-  } catch (e) {
-    console.warn('Failed to parse saved filters:', e)
   }
-}
 
 
   // Watch for changes and persist automatically
@@ -73,8 +74,19 @@ if (saved) {
     return removed
   }
 
-  return { 
-    loading, error, searches, strategies, 
-    filters, loadReport, addItem, updateItem, deleteItem 
+  async function fetchNews(type) {
+    console.log("stores-job-fetchNews", type)
+    try {
+      const data = await api.fetchNews(type)
+      news.value = data.news || []
+      console.log("stores-job-fetchNews-news", news.value)
+    } catch (err) {
+      console.error("Failed to load news", err)
+    }
+  }
+
+  return {
+    loading, error, searches, strategies, news, 
+    filters, loadReport, addItem, updateItem, deleteItem, fetchNews
   }
 })

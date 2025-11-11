@@ -8,6 +8,10 @@ const api = axios.create({
 
 
 export default {
+    async fetchNews(type) {
+        const res = await api.get(`/news/${type}`)
+        return res.data
+    },
     async fetchReport() {
         const res = await api.get('/jobs')
         return res.data

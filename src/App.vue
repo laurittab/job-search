@@ -33,11 +33,12 @@
         </select>
 
         <!-- Fuzzy search -->
-        <input 
-          v-model="filters.searchTerm" 
-          type="text" 
-          placeholder="Search keywords..."
-        />
+        <div class="search-box">
+          <input v-model="filters.searchTerm" type="text" placeholder="Search keywords..." />
+          <button v-if="filters.searchTerm" @click="filters.searchTerm = ''" class="clear-btn" title="Clear search">
+            ✕
+          </button>
+        </div>
 
         <!-- Existing buttons -->
         <button @click="refresh" :disabled="store.loading">Refresh</button>
@@ -46,49 +47,39 @@
       </div>
     </header>
 
-    <main>
-      <section v-if="store.loading">Loading report…</section>
-      <section v-else>
-        <JobsReport
-          :searches="filteredSearches"
-          :strategies="filteredStrategies"
-          @edit="onEdit"
-          @delete="onDelete"
-          @add-location="openAddLocation"
-        />
-      </section>
+    <main class="main-content">
+      <div class="report-area">
+        <section v-if="store.loading">Loading report…</section>
+        <section v-else>
+          <JobsReport :searches="filteredSearches" :strategies="filteredStrategies" @edit="onEdit" @delete="onDelete"
+            @add-location="openAddLocation" />
+        </section>
+      </div>
+
+      <NewsFeed />
     </main>
 
-    <JobForm
-      v-if="editing"
-      :type="editing.type"
-      :item="editing.item"
-      @close="editing = null"
-      @saved="onSaved"
-    />
+    <JobForm v-if="editing" :type="editing.type" :item="editing.item" @close="editing = null" @saved="onSaved" />
 
-    <LocationForm
-      v-if="addingLocation"
-      :searchId="addingLocation.searchId"
-      @close="addingLocation = null"
-      @saved="onSaved"
-    />
+    <LocationForm v-if="addingLocation" :searchId="addingLocation.searchId" @close="addingLocation = null"
+      @saved="onSaved" />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import Fuse from 'fuse.js'
-import { storeToRefs } from 'pinia'  
+import { storeToRefs } from 'pinia'
 import { useJobsStore } from './stores/jobs.js'
 import JobsReport from './components/JobsReport.vue'
 import JobForm from './components/JobForm.vue'
 import LocationForm from './components/LocationForm.vue'
+import NewsFeed from './components/NewsFeed.vue'
 
 const store = useJobsStore()
 const editing = ref(null)
 const addingLocation = ref(null)
-const {filters} = storeToRefs(store)  // <-- filters is a ref({})
+const { filters } = storeToRefs(store)  // <-- filters is a ref({})
 // In template, you can use filters.strategyCategory (auto-unwrapped)
 // In script, you must use filters.value.strategyCategory
 
@@ -195,5 +186,35 @@ async function onSaved() {
 select,
 input {
   padding: 0.25rem 0.5rem;
+}
+
+.search-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.clear-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: -1.5rem;
+  /* nudges x closer to input edge */
+  color: #666;
+}
+
+.clear-btn:hover {
+  color: #000;
+}
+
+.main-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.report-area {
+  flex: 1;
 }
 </style>
