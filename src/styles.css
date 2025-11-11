@@ -15,3 +15,35 @@ textarea {
     padding: 0.35rem;
     margin-top: 0.25rem
 }
+
+.scroller {
+  max-height: 85vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-right: 0.5rem;
+}
+
+.scroller h2 {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 5;
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem;
+  margin: 0;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.padding-075rem {
+    padding: 0.75rem;
+}
+
+.button-group {
+  display: inline-flex; 
+  align-items: center;
+  gap: 0.5rem;
+}
+ 

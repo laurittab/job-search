@@ -1,5 +1,5 @@
 <template>
-  <article class="card" :class="colourClass">
+  <article class="card padding-075rem" :class="colourClass">
     <header>
       <div class="title">
         <strong>{{ strategy.item }}</strong>
@@ -19,8 +19,8 @@
 
     <p>{{ strategy.comment }}</p>
     <div class="meta">
-      <small>Next: {{ strategy.nextStep || '—' }}</small>
-      <small>ToDo: {{ strategy.toDo || '—' }}</small>
+      <small class="italic-text">{{ strategy.nextStep || '—' }}</small>
+      <small>{{ strategy.toDo || '—' }}</small>
     </div>
   </article>
 </template>
@@ -49,7 +49,6 @@ watch(selectedColour, async (newVal) => {
 
 <style scoped>
 .card {
-  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 6px;
   transition: background-color 0.3s ease;
@@ -74,9 +73,15 @@ watch(selectedColour, async (newVal) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 6px;
 }
 
-.actions button {
-  margin-right: 0.5rem;
+.italic-text {
+    font-style: italic;
+}
+
+.meta small {
+  display: block; 
+  margin-top: 6px; 
 }
 </style>

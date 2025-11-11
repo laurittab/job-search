@@ -1,5 +1,5 @@
 <template>
-  <article class="card" :class="colourClass">
+  <article class="card padding-075rem" :class="colourClass">
     <header>
       <div class="title">
         <strong>{{ search.company }}</strong>
@@ -19,14 +19,14 @@
 
     <p>{{ search.comment }}</p>
 
-    <div class="details">
-      <div>Salary: {{ search.salary || '—' }}</div>
-      <div>Next: {{ search.nextStep || '—' }}</div>
-      <div>ToDo: {{ search.toDo || '—' }}</div>
-      <div>Closing: 
+    <ul class="details">
+      <li>Salary: {{ search.salary || '—' }}</li>
+      <li>Next: {{ search.nextStep || '—' }}</li>
+      <li>ToDo: {{ search.toDo || '—' }}</li>
+      <li>Closing: 
         <time :datetime="search.closingDate">{{ formatDate(search.closingDate) }}</time>
-      </div>
-    </div>
+      </li>
+    </ul>
 
     <section class="locations">
       <h4>Locations</h4>
@@ -34,8 +34,10 @@
       <ul>
         <li v-for="loc in search.locations" :key="loc.id">
           <div>
+            <div>
             <strong>{{ loc.category }}</strong> — {{ loc.address }}
-            <div class="loc-actions">
+            </div>
+            <div class = "button-group">
               <button @click="$emit('edit', { type: 'location', item: loc })">Edit</button>
               <button @click="$emit('delete', { type: 'location', id: loc.id })">Delete</button>
             </div>
@@ -69,7 +71,6 @@ function formatDate(d) {
 
 <style scoped>
 .card {
-  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 6px;
   transition: background-color 0.3s ease;
@@ -94,5 +95,9 @@ function formatDate(d) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 6px;
 }
+
+
+
 </style>

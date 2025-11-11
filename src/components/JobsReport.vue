@@ -1,9 +1,9 @@
 <template>
     <div class="report">
-        <section class="strategies">
+        <section class="strategies scroller">
             <h2>Strategies</h2>
             <div v-if="strategies.length === 0">No strategies</div>
-            <ul>
+            <ul class="no-bullet-points">
                 <li v-for="s in strategies" :key="s.id">
                     <StrategyCard :strategy="s" @edit="$emit('edit', { type: 'strategy', item: s })"
                         @delete="$emit('delete', { type: 'strategy', id: s.id })" />
@@ -11,10 +11,10 @@
             </ul>
         </section>
 
-        <section class="searches">
+        <section class="searches scroller">
             <h2>Searches</h2>
             <div v-if="searches.length === 0">No searches</div>
-            <ul>
+            <ul class="no-bullet-points">
                 <li v-for="search in searches" :key="search.id">
                     <SearchCard :search="search" @edit="$emit('edit', { type: 'search', item: search })"
                         @delete="$emit('delete', { type: 'search', id: search.id })"
@@ -38,4 +38,14 @@ defineProps({ searches: Array, strategies: Array })
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem
 }
+
+.no-bullet-points {
+    list-style: none;
+    padding: 0;
+}
+
+.no-bullet-points li {
+    margin-bottom: 10px;
+}
+
 </style>
